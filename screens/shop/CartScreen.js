@@ -6,6 +6,7 @@ import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cartAction';
 import * as ordersActions from '../../store/actions/ordersAction';
+import OrderScreen from './OrdersScreen';
 
 const CartScreen = props => {
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -58,6 +59,10 @@ const CartScreen = props => {
             />
         </View>
     )
+};
+
+CartScreen.navigationOptions = {
+    headerTitle: 'Your Cart'
 };
 
 const styles = StyleSheet.create({
