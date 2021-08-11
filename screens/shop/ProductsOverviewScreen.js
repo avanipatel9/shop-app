@@ -21,17 +21,20 @@ const ProductsOverviewScreen = props => {
         setIsRefreshing(true);
         try {
             await dispatch(productsActions.fetchProducts());
-        } catch(err) {
+        } catch (err) {
             setError(err.message);
         }
         setIsRefreshing(false);
     }, [dispatch, setIsLoading, setError]);
 
     useEffect(() => {
-        const willFocusSub = props.navigation.addListener('willFocus', loadProducts);
+        const unsubscribe = props.navigation.addListener(
+            'focus',
+            loadProducts
+        );
 
         return () => {
-            willFocusSub.remove();
+            unsubscribe();
         }
     }, [loadProducts]);
 
@@ -49,8 +52,8 @@ const ProductsOverviewScreen = props => {
         });
     };
 
-    if(error) {
-        return(
+    if (error) {
+        return (
             <View style={styles.centered}>
                 <Text>An error ocurred!</Text>
                 <Button title="Try Again" onPress={loadProducts} color={Colors.primary} />
@@ -58,7 +61,7 @@ const ProductsOverviewScreen = props => {
         )
     }
 
-    if(isLoading) {
+    if (isLoading) {
         return (
             <View style={styles.centered}>
                 <ActivityIndicator size='large' color={Colors.primary} />
@@ -66,7 +69,7 @@ const ProductsOverviewScreen = props => {
         );
     }
 
-    if(!isLoading && products.length === 0) {
+    if (!isLoading && products.length === 0) {
         return (
             <View style={styles.centered}>
                 <Text>No products found. Maybe start adding some!</Text>
@@ -109,7 +112,7 @@ const ProductsOverviewScreen = props => {
     );
 };
 
-ProductsOverviewScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
     return {
         headerTitle: 'All Products',
         headerLeft: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>

@@ -26,10 +26,10 @@ const OrderScreen = props => {
     }, [dispatch, setIsLoading, setError])
 
     useEffect(() => {
-        const willFocusSub = props.navigation.addListener('willFocus', loadOrders);
+        const unsubscribe = props.navigation.addListener('focus', loadOrders);
 
         return () => {
-            willFocusSub.remove();
+            unsubscribe();
         }
     }, [loadOrders]);
 
@@ -76,7 +76,7 @@ const OrderScreen = props => {
     );
 };
 
-OrderScreen.navigationOptions = navData => {
+export const screenOptions = navData => {
     return {
         headerTitle: 'Your Orders',
         headerLeft: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>
